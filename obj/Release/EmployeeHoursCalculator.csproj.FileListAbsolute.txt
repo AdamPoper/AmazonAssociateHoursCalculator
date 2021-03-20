@@ -1,0 +1,16 @@
+D:\Developer\EmployeeHoursCalculator\bin\Release\EmployeeHoursCalculator.exe.config
+D:\Developer\EmployeeHoursCalculator\bin\Release\EmployeeHoursCalculator.exe
+D:\Developer\EmployeeHoursCalculator\bin\Release\EmployeeHoursCalculator.pdb
+D:\Developer\EmployeeHoursCalculator\obj\Release\EmployeeHoursCalculator.csproj.ResolveComReference.cache
+D:\Developer\EmployeeHoursCalculator\obj\Release\MainWindow.g.cs
+D:\Developer\EmployeeHoursCalculator\obj\Release\App.g.cs
+D:\Developer\EmployeeHoursCalculator\obj\Release\EmployeeHoursCalculator_MarkupCompile.cache
+D:\Developer\EmployeeHoursCalculator\obj\Release\EmployeeHoursCalculator_MarkupCompile.lref
+D:\Developer\EmployeeHoursCalculator\obj\Release\MainWindow.baml
+D:\Developer\EmployeeHoursCalculator\obj\Release\EmployeeHoursCalculator.g.resources
+D:\Developer\EmployeeHoursCalculator\obj\Release\EmployeeHoursCalculator.Properties.Resources.resources
+D:\Developer\EmployeeHoursCalculator\obj\Release\EmployeeHoursCalculator.csproj.GenerateResource.cache
+D:\Developer\EmployeeHoursCalculator\obj\Release\EmployeeHoursCalculator.csproj.CoreCompileInputs.cache
+D:\Developer\EmployeeHoursCalculator\obj\Release\EmployeeHoursCalculator.exe
+D:\Developer\EmployeeHoursCalculator\obj\Release\EmployeeHoursCalculator.pdb
+D:\Developer\EmployeeHoursCalculator\obj\Release\EmployeeHoursCalculator.csprojAssemblyReference.cache
