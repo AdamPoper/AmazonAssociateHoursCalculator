@@ -66,8 +66,7 @@ namespace EmployeeHoursCalculator
             public float hoursLost;  // the hours lost
             public float shiftLeftNum;  // the shift they left after
         }
-
-        // clockOut2 0:45
+        
         public HoursData calcHoursLost()
         {
             HoursData hoursLostData = new HoursData();
