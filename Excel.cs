@@ -44,7 +44,8 @@ namespace EmployeeHoursCalculator
         {
             // times from excel are initially expressed as a value from 0 to 1 to 
             // indicate an hour out of 24. This method converts that to the 24 decimal time stamp used by this program
-
+            if (time == "" || time == null)
+                return -1.0f;
 
             // the parse method for float wasn't working so I used double
             float time24 = (float)Double.Parse(time);            

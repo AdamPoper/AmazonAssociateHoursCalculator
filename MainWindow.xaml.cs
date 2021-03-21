@@ -65,9 +65,16 @@ namespace EmployeeHoursCalculator
                 for (int i = 2; excel.ReadCell(i, 1) != ""; i++)
                 {
                     // create the associates
-                    associates.Add(new Associate(excel.ReadCell(i, 1), excel.ReadCell(i, 2),
-                        excel.convertToTimeStamp(excel.ReadCell(i, 5)), excel.convertToTimeStamp(excel.ReadCell(i, 6)),
-                        excel.convertToTimeStamp(excel.ReadCell(i, 7)), excel.convertToTimeStamp(excel.ReadCell(i, 8))));                    
+
+                    float clockIn1 = excel.convertToTimeStamp(excel.ReadCell(i, 5));
+                    float clockOut1 = excel.convertToTimeStamp(excel.ReadCell(i, 6));
+                    float clockIn2 = excel.convertToTimeStamp(excel.ReadCell(i, 7));
+                    float clockOut2 = excel.convertToTimeStamp(excel.ReadCell(i, 8));
+                    string manager = excel.ReadCell(i, 3);
+
+
+                    if (clockIn1 != -1.0f && clockOut1 != -1.0f && clockIn2 != -1.0f && clockOut2 != -1.0f && manager == "Everett,Dustin")
+                        associates.Add(new Associate(clockIn1, clockOut1, clockIn2, clockOut2));                                          
                 }
                 // calculate all the hours and associate counts
                 int row = 0;
@@ -79,17 +86,20 @@ namespace EmployeeHoursCalculator
                 foreach (var ass in associates)
                 {
                     Associate.HoursData hoursData = new Associate.HoursData();
-                    hoursData = ass.calcHoursLost();
-                    totalHoursLost += hoursData.hoursLost;
-                    switch (hoursData.shiftLeftNum)
+                    hoursData = ass.calcHoursLost();                    
+                    switch (hoursData.breakLeftNum)
                     {
                         case 1:
                             totalHoursLostAfter1st += hoursData.hoursLost;
                             associatesLeftFirst++;
+                            totalHoursLost += hoursData.hoursLost;
                             break;
                         case 2:
                             totalHoursLostAfter2nd += hoursData.hoursLost;
                             associatesLeftSecond++;
+                            totalHoursLost += hoursData.hoursLost;
+                            break;
+                        default:
                             break;
                     }
                     row++;

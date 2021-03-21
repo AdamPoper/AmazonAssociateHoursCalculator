@@ -31,6 +31,8 @@
         <TextBlock FontSize="20px" Name="hoursLostSecondValueLabel" Grid.Row="3" Grid.Column="1" FontWeight="Bold">0</TextBlock>
         <TextBlock FontSize="20px" Name="totalHoursLostValueLabel" Grid.Row="4" Grid.Column="1" FontWeight="Bold">0</TextBlock>
 
-        <Button Name="fileButt" Grid.Column="0" Grid.Row="5" Width="150px" Height="50px" Click="fileButt_Click">Open Excel File</Button>
+        <Button Name="fileButt" Grid.Column="0" Grid.Row="5" 
+                Width="150px" Height="50px" Click="fileButt_Click"
+                >Open Excel File</Button>
     </Grid>
 </Window>

@@ -27,6 +27,7 @@ namespace EmployeeHoursCalculator
         private static float normalShiftLength = 10.0f;
         private static float breakLength = 0.5f;
         private static float break2Start = 0.8333f;
+        private static float onTimeLimit = 4.91667f;
         public Associate(string firstName, string lastName)
         {
             this.firstName = firstName;
@@ -44,8 +45,16 @@ namespace EmployeeHoursCalculator
             this.clockOut2 = clockOut2;
             this.shiftLength = calcShiftLength();
         }
-        private float calcShiftLength()
+        public Associate(float clockIn1, float clockOut1, float clockIn2, float clockOut2)
         {
+            this.clockIn1 = clockIn1;
+            this.clockOut1 = clockOut1;
+            this.clockIn2 = clockIn2;
+            this.clockOut2 = clockOut2;
+            this.shiftLength = calcShiftLength();            
+        }
+        private float calcShiftLength()
+        {            
             float totalHours = 0.0f;
             if(clockIn1 > clockOut2)
             {
@@ -64,21 +73,23 @@ namespace EmployeeHoursCalculator
         public struct HoursData
         {
             public float hoursLost;  // the hours lost
-            public float shiftLeftNum;  // the shift they left after
+            public float breakLeftNum;  // the shift they left after, 1 is after 1st break and 2 is after 2nd break. -1 is they left on time
         }
         
         public HoursData calcHoursLost()
         {
             HoursData hoursLostData = new HoursData();
             hoursLostData.hoursLost = normalShiftLength - shiftLength;
-            if (clockOut2 > break2Start + breakLength && clockOut2 < clockIn1)
-                hoursLostData.shiftLeftNum = 2;
-            else if (clockOut2 > clockIn1 && clockOut2 > break2Start + breakLength)
-                hoursLostData.shiftLeftNum = 1;
-            else if (clockOut2 >= 0.0f && clockOut2 <= break2Start && clockOut2 > clockIn1)
-                hoursLostData.shiftLeftNum = 2;
-            else if (clockOut2 < clockIn1 && clockOut2 < break2Start)
-                hoursLostData.shiftLeftNum = 1;
+            if (clockOut2 > break2Start + breakLength && clockOut2 <= onTimeLimit)
+                hoursLostData.breakLeftNum = 2;
+            if (clockOut2 < 24.0f && clockOut2 > clockIn2)
+                hoursLostData.breakLeftNum = 1;
+            if (clockOut2 >= 0.0f && clockOut2 < break2Start)
+                hoursLostData.breakLeftNum = 1;
+            if (clockIn1 < clockOut2 && clockOut2 > clockIn2)
+                hoursLostData.breakLeftNum = 1;            
+            if (clockOut2 >= onTimeLimit && clockOut2 < clockIn1)
+                hoursLostData.breakLeftNum = -1;
             return hoursLostData;
         }
         
