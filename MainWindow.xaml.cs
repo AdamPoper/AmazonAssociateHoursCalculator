@@ -61,7 +61,7 @@ namespace EmployeeHoursCalculator
             if (fileName != "")
             {                
                 associates = new List<Associate>();
-                // excel sheets start at 1, not 0 and 2 is the first entry
+                // excel sheets start at 1, not 0 and row 2 is the first entry
                 for (int i = 2; excel.ReadCell(i, 1) != ""; i++)
                 {
                     // create the associates
@@ -72,8 +72,9 @@ namespace EmployeeHoursCalculator
                     float clockOut2 = excel.convertToTimeStamp(excel.ReadCell(i, 8));
                     string manager = excel.ReadCell(i, 3);
 
-
-                    if (clockIn1 != -1.0f && clockOut1 != -1.0f && clockIn2 != -1.0f && clockOut2 != -1.0f && manager == "Everett,Dustin")
+                    if (clockIn1 != -1.0f && clockOut1 != -1.0f && 
+                        clockIn2 != -1.0f && clockOut2 != -1.0f && 
+                        manager == "Everett,Dustin")  // hard coded to dustin for now
                         associates.Add(new Associate(clockIn1, clockOut1, clockIn2, clockOut2));                                          
                 }
                 // calculate all the hours and associate counts
