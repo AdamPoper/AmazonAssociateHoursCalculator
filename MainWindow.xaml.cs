@@ -72,6 +72,7 @@ namespace EmployeeHoursCalculator
                     float clockOut2 = excel.convertToTimeStamp(excel.ReadCell(i, 8));
                     string manager = excel.ReadCell(i, 3);
 
+                    // associates who didn't enter in clock in and out info for all 4 fields are discarded
                     if (clockIn1 != -1.0f && clockOut1 != -1.0f && 
                         clockIn2 != -1.0f && clockOut2 != -1.0f && 
                         manager == "Everett,Dustin")  // hard coded to dustin for now

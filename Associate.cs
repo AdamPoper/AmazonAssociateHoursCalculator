@@ -56,7 +56,7 @@ namespace EmployeeHoursCalculator
             this.clockOut2 = clockOut2;
             this.shiftLength = calcShiftLength();            
         }
-        // calculates 
+        // calculates how long their shift was
         private float calcShiftLength()
         {            
             // each employee is supposed to be there for 10.5 hours but is 
