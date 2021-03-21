@@ -23,11 +23,14 @@ namespace EmployeeHoursCalculator
         public float clockOut1 { get; }  // start first break
         public float clockIn2  { get; }   // end of first break
         public float clockOut2 { get; }  // end of shift;
+        // break 2 is paid so there are no values to represent those
         private float shiftLength;
         private static float normalShiftLength = 10.0f;
-        private static float breakLength = 0.5f;
+        private static float breakLength = 0.5f;    // each break is 30 minutes
+        
+        // these values were given to me from my brother who said these are the values he wanted based on his needs at the warehouse
         private static float break2Start = 0.8333f;
-        private static float onTimeLimit = 4.91667f;
+        private static float onTimeLimit = 4.91667f;  // if an employee left after this time then they're considered on time
         public Associate(string firstName, string lastName)
         {
             this.firstName = firstName;
@@ -53,8 +56,12 @@ namespace EmployeeHoursCalculator
             this.clockOut2 = clockOut2;
             this.shiftLength = calcShiftLength();            
         }
+        // calculates 
         private float calcShiftLength()
         {            
+            // each employee is supposed to be there for 10.5 hours but is 
+            // only paid for a 10 hour shift because break 1 is not paid
+            // which is why half an hour is subtracted from the total shift hours
             float totalHours = 0.0f;
             if(clockIn1 > clockOut2)
             {
@@ -76,6 +83,9 @@ namespace EmployeeHoursCalculator
             public float breakLeftNum;  // the shift they left after, 1 is after 1st break and 2 is after 2nd break. -1 is they left on time
         }
         
+        // this method determines which shift they left after based on when their clockOut2 time was
+        // there are multiple conditions to check for because this program is for the managers of the 
+        // night shift so employees start in the evening and end in the morning
         public HoursData calcHoursLost()
         {
             HoursData hoursLostData = new HoursData();
