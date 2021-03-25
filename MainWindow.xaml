@@ -6,33 +6,37 @@
         xmlns:local="clr-namespace:EmployeeHoursCalculator"
         mc:Ignorable="d"
         Title="MainWindow" Height="480" Width="640">
-    <Grid Name="MainGrid">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="350px"/>
-            <ColumnDefinition Width="350px"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <TextBlock FontSize="20px"  Name="AssociatesLeftFirstLabel" Grid.Row="0" Grid.Column="0">Associates Left After First Break</TextBlock>
-        <TextBlock FontSize="20px"  Name="HoursLostFirstLabel" Grid.Row="1" Grid.Column="0">Hours Lost After First Break</TextBlock>
-        <TextBlock FontSize="20px"  Name="AssociatesLeftSecondLabel" Grid.Row="2" Grid.Column="0">Associates Left After Second Break</TextBlock>
-        <TextBlock FontSize="20px"  Name="HoursLostSecondLabel" Grid.Row="3" Grid.Column="0">Hours Lost After Second Break</TextBlock>
-        <TextBlock FontSize="20px"  Name="TotalHoursLostLabel" Grid.Row="4" Grid.Column="0">Total Hours Lost</TextBlock>
+    <StackPanel>
+        <Grid Name="MainGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="350px"/>
+                <ColumnDefinition Width="350px"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60px"/>
+                <RowDefinition Height="60px"/>
+                <RowDefinition Height="60px"/>
+                <RowDefinition Height="60px"/>
+                <RowDefinition Height="60px"/>
+                <RowDefinition Height="60px"/>
+            </Grid.RowDefinitions>
+            <TextBlock FontSize="20px" Name="AssociatesLeftFirstLabel" Grid.Row="0" Grid.Column="0">Associates Left After First Break</TextBlock>
+            <TextBlock FontSize="20px" Name="HoursLostFirstLabel" Grid.Row="1" Grid.Column="0">Hours Lost After First Break</TextBlock>
+            <TextBlock FontSize="20px" Name="AssociatesLeftSecondLabel" Grid.Row="2" Grid.Column="0">Associates Left After Second Break</TextBlock>
+            <TextBlock FontSize="20px" Name="HoursLostSecondLabel" Grid.Row="3" Grid.Column="0">Hours Lost After Second Break</TextBlock>
+            <TextBlock FontSize="20px" Name="TotalHoursLostLabel" Grid.Row="4" Grid.Column="0">Total Hours Lost</TextBlock>
 
-        <TextBlock FontSize="20px" Name="associatesLeftFirstValueLabel" Grid.Row="0" Grid.Column="1" FontWeight="Bold">0</TextBlock>
-        <TextBlock FontSize="20px" Name="hoursLostFirstValueLabel" Grid.Row="1" Grid.Column="1" FontWeight="Bold">0</TextBlock>
-        <TextBlock FontSize="20px" Name="associatesLeftSecondValueLabel" Grid.Row="2" Grid.Column="1" FontWeight="Bold">0</TextBlock>
-        <TextBlock FontSize="20px" Name="hoursLostSecondValueLabel" Grid.Row="3" Grid.Column="1" FontWeight="Bold">0</TextBlock>
-        <TextBlock FontSize="20px" Name="totalHoursLostValueLabel" Grid.Row="4" Grid.Column="1" FontWeight="Bold">0</TextBlock>
-
-        <Button Name="fileButt" Grid.Column="0" Grid.Row="5" 
-                Width="150px" Height="50px" Click="fileButt_Click"
-                >Open Excel File</Button>
-    </Grid>
+            <TextBlock FontSize="20px" Name="associatesLeftFirstValueLabel" Grid.Row="0" Grid.Column="1" FontWeight="Bold">0</TextBlock>
+            <TextBlock FontSize="20px" Name="hoursLostFirstValueLabel" Grid.Row="1" Grid.Column="1" FontWeight="Bold">0</TextBlock>
+            <TextBlock FontSize="20px" Name="associatesLeftSecondValueLabel" Grid.Row="2" Grid.Column="1" FontWeight="Bold">0</TextBlock>
+            <TextBlock FontSize="20px" Name="hoursLostSecondValueLabel" Grid.Row="3" Grid.Column="1" FontWeight="Bold">0</TextBlock>
+            <TextBlock FontSize="20px" Name="totalHoursLostValueLabel" Grid.Row="4" Grid.Column="1" FontWeight="Bold">0</TextBlock>
+        </Grid>
+        <StackPanel Orientation="Horizontal">
+            <Button Name="openFileButt" Click="fileButt_Click"
+                    Width="100px" Height="50px" Margin="50, 0, 30, 0">Open Excel File</Button>
+            <Label Name="manLabel" VerticalAlignment="Center">Enter Manager Name</Label>
+            <TextBox Name="manBox" Width="100px" Height="30px"></TextBox>
+        </StackPanel>
+    </StackPanel>
 </Window>

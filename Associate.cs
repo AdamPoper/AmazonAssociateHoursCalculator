@@ -30,7 +30,7 @@ namespace EmployeeHoursCalculator
         
         // these values were given to me from my brother who said these are the values he wanted based on his needs at the warehouse
         private static float break2Start = 0.8333f;
-        private static float onTimeLimit = 4.91667f;  // if an employee left after this time then they're considered on time
+        private static float onTimeLimit = 5.0f;  // if an employee left after this time then they're considered on time
         public Associate(string firstName, string lastName)
         {
             this.firstName = firstName;
@@ -56,6 +56,13 @@ namespace EmployeeHoursCalculator
             this.clockOut2 = clockOut2;
             this.shiftLength = calcShiftLength();            
         }
+        public Associate(float clockIn1, float clockOut1)
+        {
+            this.clockIn1 = clockIn1;
+            this.clockOut1 = clockOut1;
+            clockIn2 = -1.0f;
+            clockOut2 = -1.0f;
+        }
         // calculates how long their shift was
         private float calcShiftLength()
         {            
@@ -63,17 +70,34 @@ namespace EmployeeHoursCalculator
             // only paid for a 10 hour shift because break 1 is not paid
             // which is why half an hour is subtracted from the total shift hours
             float totalHours = 0.0f;
-            if(clockIn1 > clockOut2)
+            
+            if(clockIn2 != -1.0f && clockOut2 != -1.0f)
             {
-                totalHours += (24.0f - clockIn1);
-                totalHours += clockOut2;
-                totalHours -= breakLength;
+                if (clockIn1 > clockOut2)
+                {
+                    totalHours += (24.0f - clockIn1);
+                    totalHours += clockOut2;
+                    totalHours -= breakLength;
+                }
+                else if(clockIn1 < clockOut2)
+                {
+                    totalHours = clockOut2 - clockIn1 - breakLength;
+                }
             }
-            else if(clockIn1 < clockOut2)
+            // if they only had a clockIn1 and ClockOut2
+            else if(clockIn2 == -1.0f && clockOut2 == -1.0f)
             {
-                totalHours = clockOut2 - clockIn1 - breakLength;
+                if(clockIn1 < clockOut1)
+                {
+                    totalHours = clockOut1 - clockIn1;
+                }
+                else if(clockIn1 > clockOut1)
+                {
+                    totalHours += (24.0f - clockIn1);
+                    totalHours += clockOut1;                    
+                }
             }
-
+            
             return totalHours;
         }        
         
@@ -89,17 +113,63 @@ namespace EmployeeHoursCalculator
         public HoursData calcHoursLost()
         {
             HoursData hoursLostData = new HoursData();
-            hoursLostData.hoursLost = normalShiftLength - shiftLength;
-            if (clockOut2 > break2Start + breakLength && clockOut2 <= onTimeLimit)
-                hoursLostData.breakLeftNum = 2;
-            if (clockOut2 < 24.0f && clockOut2 > clockIn2)
-                hoursLostData.breakLeftNum = 1;
-            if (clockOut2 >= 0.0f && clockOut2 < break2Start)
-                hoursLostData.breakLeftNum = 1;
-            if (clockIn1 < clockOut2 && clockOut2 > clockIn2)
-                hoursLostData.breakLeftNum = 1;            
-            if (clockOut2 >= onTimeLimit && clockOut2 < clockIn1)
-                hoursLostData.breakLeftNum = -1;
+            if (clockIn2 != -1.0f && clockOut2 != -1.0f)
+            {
+                hoursLostData.hoursLost = normalShiftLength - shiftLength;
+                if (clockOut2 > break2Start + breakLength && clockOut2 < onTimeLimit)
+                    hoursLostData.breakLeftNum = 2;
+                if (clockOut2 < 24.0f && clockOut2 > clockIn2)
+                    hoursLostData.breakLeftNum = 1;
+                if (clockOut2 >= 0.0f && clockOut2 < break2Start)
+                    hoursLostData.breakLeftNum = 1;
+                if (clockIn1 < clockOut2 && clockOut2 > clockIn2)
+                    hoursLostData.breakLeftNum = 1;
+                if (clockOut2 >= onTimeLimit && clockOut2 < clockIn1)
+                    hoursLostData.breakLeftNum = -1;
+            }
+            else if (clockIn2 == -1.0f && clockOut2 == -1.0f)
+            {
+                if (clockIn1 > clockOut1)
+                {
+                    if(clockOut1 <= break2Start)
+                    {
+                        hoursLostData.breakLeftNum = 1;
+                        hoursLostData.hoursLost = onTimeLimit - clockOut1;
+                    }
+                    else if(clockOut1 > break2Start + breakLength && clockOut1 < onTimeLimit)
+                    {
+                        hoursLostData.breakLeftNum = 2;
+                        hoursLostData.hoursLost = onTimeLimit - clockOut1;
+                    }
+                    else if(clockOut1 >= onTimeLimit)
+                    {
+                        hoursLostData.breakLeftNum = -1;
+                        hoursLostData.hoursLost = 0.0f;
+                    }
+                }    
+                else if (clockIn1 < clockOut1)
+                {
+                    if(clockOut1 < break2Start)
+                    {
+                        hoursLostData.breakLeftNum = 1;
+                        hoursLostData.hoursLost = onTimeLimit - clockOut1;
+                    }
+                    else if(clockOut1 < onTimeLimit && clockOut1 > break2Start + breakLength)
+                    {
+                        hoursLostData.breakLeftNum = 2;
+                        hoursLostData.hoursLost = onTimeLimit - clockOut1;
+                    }
+                    else if(clockOut1 >= onTimeLimit && clockIn1 < onTimeLimit)
+                    {
+                        hoursLostData.breakLeftNum = -1;
+                        hoursLostData.hoursLost = 0.0f;
+                    }
+                    else if(clockIn1 > onTimeLimit && clockOut1 > onTimeLimit)
+                    {
+                        // idk if I need to handle this situation
+                    }
+                }
+            }
             return hoursLostData;
         }
         

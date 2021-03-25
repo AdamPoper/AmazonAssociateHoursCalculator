@@ -37,6 +37,7 @@ namespace EmployeeHoursCalculator
         private Excel excel;
         private List<Associate> associates;  // a list of associates that represents all the assocoates in the excel sheet
         private string fileName = "";  // filename for the excel file being read from
+        private string managerName = "";
         public MainWindow()
         {
             InitializeComponent();
@@ -54,11 +55,12 @@ namespace EmployeeHoursCalculator
             {
                 fileName = openFileDialog.FileName;
                 excel = new Excel(fileName, 1);
+                managerName = manBox.Text.ToLower();
             }
         }
         public void calcAllData(object sender, EventArgs e)
         {
-            if (fileName != "")
+            if (fileName != "" && managerName != "")
             {                
                 associates = new List<Associate>();
                 // excel sheets start at 1, not 0 and row 2 is the first entry
@@ -70,13 +72,21 @@ namespace EmployeeHoursCalculator
                     float clockOut1 = excel.convertToTimeStamp(excel.ReadCell(i, 6));
                     float clockIn2 = excel.convertToTimeStamp(excel.ReadCell(i, 7));
                     float clockOut2 = excel.convertToTimeStamp(excel.ReadCell(i, 8));
-                    string manager = excel.ReadCell(i, 3);
+                    string manager = excel.ReadCell(i, 3).ToLower();
 
                     // associates who didn't enter in clock in and out info for all 4 fields are discarded
-                    if (clockIn1 != -1.0f && clockOut1 != -1.0f && 
-                        clockIn2 != -1.0f && clockOut2 != -1.0f && 
-                        manager == "Everett,Dustin")  // hard coded to dustin for now
-                        associates.Add(new Associate(clockIn1, clockOut1, clockIn2, clockOut2));                                          
+                    // but if clockIn1 and clockOut1 are the only fields filled then they are accepted
+                    if(manager.Contains(managerName))
+                    {
+                        if (clockIn1 != -1.0f && clockOut1 != -1.0f && clockIn2 != -1.0f && clockOut2 != -1.0f)
+                        {
+                            associates.Add(new Associate(clockIn1, clockOut1, clockIn2, clockOut2));                                          
+                        }
+                        else if((clockIn1 != -1.0f && clockOut1 != -1.0f) && (clockIn2 == -1.0f && clockOut2 == -1.0f))
+                        {
+                            associates.Add(new Associate(clockIn1, clockOut1));
+                        }
+                    }                    
                 }
                 // calculate all the hours and associate counts
                 int row = 0;
