@@ -37,7 +37,7 @@ namespace EmployeeHoursCalculator
         private Excel excel;
         private List<Associate> associates;  // a list of associates that represents all the assocoates in the excel sheet
         private string fileName = "";  // filename for the excel file being read from
-        private string managerName = "";
+        private string[] managers;
         public MainWindow()
         {
             InitializeComponent();
@@ -45,6 +45,7 @@ namespace EmployeeHoursCalculator
 
             // add the calcAllData method the rendering target so it calculates when a new file is opened
             CompositionTarget.Rendering += this.calcAllData;
+            manBox.Text = "ex. John;Doe";
         }
         
         // open the excel file and create the excel object
@@ -55,12 +56,12 @@ namespace EmployeeHoursCalculator
             {
                 fileName = openFileDialog.FileName;
                 excel = new Excel(fileName, 1);
-                managerName = manBox.Text.ToLower();
+                managers = manBox.Text.ToLower().Split(';');
             }
         }
         public void calcAllData(object sender, EventArgs e)
         {
-            if (fileName != "" && managerName != "")
+            if (fileName != "" && managers != null)
             {                
                 associates = new List<Associate>();
                 // excel sheets start at 1, not 0 and row 2 is the first entry
@@ -76,17 +77,22 @@ namespace EmployeeHoursCalculator
 
                     // associates who didn't enter in clock in and out info for all 4 fields are discarded
                     // but if clockIn1 and clockOut1 are the only fields filled then they are accepted
-                    if(manager.Contains(managerName))
+
+                    foreach (string man in managers)
                     {
-                        if (clockIn1 != -1.0f && clockOut1 != -1.0f && clockIn2 != -1.0f && clockOut2 != -1.0f)
+                        if (manager.Contains(man))
                         {
-                            associates.Add(new Associate(clockIn1, clockOut1, clockIn2, clockOut2));                                          
+                            if (clockIn1 != -1.0f && clockOut1 != -1.0f && clockIn2 != -1.0f && clockOut2 != -1.0f)
+                            {
+                                associates.Add(new Associate(clockIn1, clockOut1, clockIn2, clockOut2));
+                            }
+                            else if ((clockIn1 != -1.0f && clockOut1 != -1.0f) && (clockIn2 == -1.0f && clockOut2 == -1.0f))
+                            {
+                                associates.Add(new Associate(clockIn1, clockOut1));
+                            }
+                            break;
                         }
-                        else if((clockIn1 != -1.0f && clockOut1 != -1.0f) && (clockIn2 == -1.0f && clockOut2 == -1.0f))
-                        {
-                            associates.Add(new Associate(clockIn1, clockOut1));
-                        }
-                    }                    
+                    }                
                 }
                 // calculate all the hours and associate counts
                 int row = 0;

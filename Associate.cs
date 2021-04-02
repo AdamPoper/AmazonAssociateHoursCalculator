@@ -113,6 +113,7 @@ namespace EmployeeHoursCalculator
         public HoursData calcHoursLost()
         {
             HoursData hoursLostData = new HoursData();
+            // for the employees that have all 4 fields
             if (clockIn2 != -1.0f && clockOut2 != -1.0f)
             {
                 hoursLostData.hoursLost = normalShiftLength - shiftLength;
@@ -127,6 +128,7 @@ namespace EmployeeHoursCalculator
                 if (clockOut2 >= onTimeLimit && clockOut2 < clockIn1)
                     hoursLostData.breakLeftNum = -1;
             }
+            // for the employees that have only 2 fields
             else if (clockIn2 == -1.0f && clockOut2 == -1.0f)
             {
                 if (clockIn1 > clockOut1)
